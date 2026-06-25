@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="description" content="Ôn tập Toán lớp 10 - Đại số, Hình học, Thống kê & Xác suất. Học offline, miễn phí, không quảng cáo.">
+<meta name="theme-color" content="#6366f1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icons/icon-192.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icons/icon-192.svg">
+<title>Toán 10 - Ôn tập lớp 10</title>
+<link rel="stylesheet" href="/style.css">
+<style>
+.hero{text-align:center;padding:48px 16px 32px}
+.hero h1{font-size:clamp(2rem,5vw,3rem);font-weight:900;background:linear-gradient(135deg,#6366f1,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:var(--ink-muted);margin-top:8px;font-size:var(--fs-lg)}
+.grid-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;padding:0 16px 32px;max-width:820px;margin:0 auto}
+.card-sub{
+  background:var(--surface);border-radius:var(--r-lg);padding:28px 24px;
+  box-shadow:var(--sh);border:1px solid var(--line);
+  transition:all .2s;cursor:pointer;display:flex;flex-direction:column;gap:12px;
+}
+.card-sub:hover{transform:translateY(-4px);box-shadow:var(--sh-lg);border-color:var(--brand)}
+.card-sub .icon{font-size:2.5rem}
+.card-sub h2{font-size:var(--fs-xl);font-weight:700}
+.card-sub p{color:var(--ink-muted);font-size:var(--fs-sm);line-height:1.5}
+.card-sub .topics{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.card-sub .topics span{font-size:var(--fs-sm);color:var(--ink-muted);background:var(--bg-alt);padding:2px 8px;border-radius:var(--r-pill)}
+.card-sub .btn{margin-top:auto}
+.cards{max-width:820px;margin:0 auto;padding:0 16px 40px}
+.section-title{font-size:var(--fs-lg);font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:32px}
+.stat-card{background:var(--surface);border-radius:var(--r);padding:16px;text-align:center;box-shadow:var(--sh);border:1px solid var(--line)}
+.stat-card .num{font-size:var(--fs-h2);font-weight:800;color:var(--brand)}
+.stat-card .label{font-size:var(--fs-sm);color:var(--ink-muted)}
+.support-bar{margin-top:24px;padding:12px 16px;background:var(--brand-light);border-radius:var(--r);text-align:center;font-size:var(--fs-sm)}
+footer{text-align:center;padding:24px 16px;color:var(--ink-muted);font-size:var(--fs-sm)}
+footer a{color:var(--brand);font-weight:600}
+@media(max-width:560px){
+  .hero{padding:32px 12px 24px}
+  .grid-cards{grid-template-columns:1fr;padding:0 12px 24px}
+  .card-sub{padding:20px 16px}
+}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="container">
+    <div class="logo">📐 Toán 10</div>
+    <div class="spacer"></div>
+    <button class="iconbtn" onclick="toggleTheme()" aria-label="Đổi theme" id="themeBtn">🌙</button>
+  </div>
+</header>
+
+<div class="hero">
+  <h1>📐 Toán 10</h1>
+  <p>Ôn tập lớp 10 — chọn nội dung bạn muốn học</p>
+</div>
+
+<div class="grid-cards">
+  <a href="/daiso/" class="card-sub">
+    <div class="icon">📊</div>
+    <h2>Đại số</h2>
+    <p>Mệnh đề, hàm số, phương trình, bất phương trình, lượng giác</p>
+    <div class="topics">
+      <span>Mệnh đề</span><span>Hàm số</span><span>PT & BPT</span><span>Lượng giác</span>
+    </div>
+    <div class="btn primary">Vào học →</div>
+  </a>
+  <a href="/hinhhoc/" class="card-sub">
+    <div class="icon">📐</div>
+    <h2>Hình học</h2>
+    <p>Vector, tọa độ, tích vô hướng, đường thẳng, đường tròn, elip, hypebol, parabol</p>
+    <div class="topics">
+      <span>Vector</span><span>Tọa độ</span><span>Đường thẳng</span><span>Elip</span><span>Hypebol</span><span>Parabol</span>
+    </div>
+    <div class="btn primary">Vào học →</div>
+  </a>
+  <a href="/thongke/" class="card-sub">
+    <div class="icon">📊</div>
+    <h2>Thống kê & Xác suất</h2>
+    <p>Số gần đúng, bảng phân bố, số TB/trung vị/mốt, phương sai, xác suất, bài toán thực tế</p>
+    <div class="topics">
+      <span>Số gần đúng</span><span>Bảng phân bố</span><span>Trung vị</span><span>Phương sai</span><span>Xác suất</span>
+    </div>
+    <div class="btn primary">Vào học →</div>
+  </a>
+</div>
+
+<div class="cards">
+  <div class="section-title">📈 Thống kê của bạn</div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="num" id="totalXp">0</div><div class="label">Tổng XP</div></div>
+    <div class="stat-card"><div class="num" id="totalCorrect">0</div><div class="label">Câu đúng</div></div>
+    <div class="stat-card"><div class="num" id="bestStreak">0</div><div class="label">Streak cao nhất</div></div>
+    <div class="stat-card"><div class="num" id="level">1</div><div class="label">Cấp độ</div></div>
+  </div>
+</div>
+
+<div id="debugLog" style="position:fixed;bottom:0;left:0;right:0;max-height:200px;overflow:auto;background:#450a0a;color:#fff;font-size:12px;padding:8px;z-index:9999;display:none"></div>
+<div id="installBar" class="install-bar hidden">
+  <span>📥 Cài đặt ứng dụng để học khi không có mạng</span>
+  <button class="btn sm" id="installBtn">Cài đặt</button>
+  <button class="close" onclick="dismissInstall()">✕</button>
+</div>
+
+<footer>
+  💛 App miễn phí — <a href="mailto:contact@toan10.app">Liên hệ</a> · <a href="https://github.com">GitHub</a>
+</footer>
+
+<script>
+// Theme toggle
+function toggleTheme(){
+  const t = document.documentElement;
+  const isDark = t.getAttribute('data-theme') === 'dark';
+  t.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  localStorage.setItem('toan10_theme', isDark ? 'light' : 'dark');
+  document.getElementById('themeBtn').textContent = isDark ? '🌙' : '☀️';
+}
+const savedTheme = localStorage.getItem('toan10_theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+// Stats from localStorage
+function loadStats(){
+  const data = JSON.parse(localStorage.getItem('toan10_v1') || '{}');
+  const all = ['daiso','hinhhoc','thongke'];
+  let xp=0, correct=0, streak=0, level=1;
+  all.forEach(k => {
+    const d = data[k];
+    if(d){
+      xp += d.xp||0; correct += d.totalCorrect||0;
+      streak = Math.max(streak, d.bestStreak||0);
+    }
+  });
+  level = Math.floor(xp/100)+1;
+  document.getElementById('totalXp').textContent = xp;
+  document.getElementById('totalCorrect').textContent = correct;
+  document.getElementById('bestStreak').textContent = streak;
+  document.getElementById('level').textContent = level;
+}
+loadStats();
+
+// Install PWA
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault(); deferredPrompt = e;
+  if(!localStorage.getItem('toan10_installDismiss'))
+    document.getElementById('installBar').classList.remove('hidden');
+});
+document.getElementById('installBtn').addEventListener('click', async () => {
+  if(deferredPrompt){ deferredPrompt.prompt(); const r = await deferredPrompt.userChoice; deferredPrompt = null; }
+});
+window.addEventListener('appinstalled', () => { document.getElementById('installBar').classList.add('hidden'); });
+function dismissInstall(){ document.getElementById('installBar').classList.add('hidden'); localStorage.setItem('toan10_installDismiss','1'); }
+// iOS detection
+if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.navigator.standalone)
+  document.getElementById('installBar').querySelector('span').textContent = 'Chia sẻ → Thêm vào Màn hình chính để dùng offline';
+
+// Service worker
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
+</script>
+</body>
+</html>

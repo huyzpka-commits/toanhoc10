@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#6366f1">
+<link rel="manifest" href="/thongke/manifest.webmanifest">
+<link rel="icon" href="/icons/icon-192.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icons/icon-192.svg">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<title>Toán 10 - Thống kê & Xác suất</title>
+<link rel="stylesheet" href="/style.css">
+<style>
+.app{max-width:800px;margin:0 auto;padding:0 16px 40px;display:flex;flex-direction:column;gap:16px}
+.screen{animation:fadeUp .3s ease}
+.topic-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.topic{padding:16px;border-radius:var(--r);background:var(--surface);border:1px solid var(--line);cursor:pointer;transition:all .15s;box-shadow:var(--sh);display:flex;flex-direction:column;gap:4px}
+.topic:hover{border-color:var(--brand);transform:translateY(-2px);box-shadow:var(--sh-md)}
+.topic-icon{font-size:1.75rem}
+.topic-name{font-weight:600;font-size:var(--fs-body)}
+.topic-pct{font-size:var(--fs-sm);color:var(--ink-muted)}
+.topic-bar{height:6px;background:var(--bg-alt);border-radius:3px;overflow:hidden}
+.topic-bar i{display:block;height:100%;background:var(--brand);border-radius:3px;transition:width .5s}
+.stem{font-size:var(--fs-lg);line-height:1.7;margin-bottom:16px}
+.choices{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+.choice{padding:14px 16px;border-radius:var(--r);border:2px solid var(--line);background:var(--surface);font-size:var(--fs-body);transition:all .1s;text-align:center;min-height:var(--tap-lg)}
+.choice:hover{border-color:var(--brand);background:var(--brand-light)}
+.choice.selected{border-color:var(--brand);background:var(--brand-light)}
+.choice.correct{border-color:var(--ok);background:var(--ok-light)}
+.choice.wrong{border-color:var(--warn);background:var(--warn-light)}
+.inputrow{margin-bottom:16px}
+.feedback{padding:14px 18px;border-radius:var(--r);font-weight:600;display:none}
+.feedback.show{display:block;animation:fadeUp .2s ease}
+.feedback.ok{background:var(--ok-light);color:var(--ok);border-left:6px solid var(--ok)}
+.feedback.bad{background:var(--warn-light);color:var(--warn);border-left:6px solid var(--warn)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.actions .btn{flex:1;min-width:120px}
+.explain-box{padding:14px 18px;border-radius:var(--r);background:var(--bg-alt);border-left:4px solid var(--info);margin-top:8px;font-size:var(--fs-sm);line-height:1.6}
+.result-header{text-align:center;padding:24px 0}
+.result-emoji{font-size:4rem;animation:pop .4s}
+.result-msg{font-size:var(--fs-xl);font-weight:700;margin:8px 0}
+.result-score{font-size:var(--fs-h2);font-weight:900;color:var(--brand)}
+.result-xp{font-size:var(--fs-lg);color:var(--accent)}
+.review-list{display:flex;flex-direction:column;gap:8px;max-height:400px;overflow-y:auto}
+.review-item{padding:12px 16px;border-radius:var(--r);background:var(--surface);border:1px solid var(--line);font-size:var(--fs-sm)}
+.review-q{font-weight:600;margin-bottom:4px}
+.review-a{margin-bottom:4px}
+.review-explain{color:var(--ink-muted);font-size:var(--fs-sm)}
+.badge-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.bcard{padding:20px;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--line);text-align:center;transition:all .15s;opacity:0.5}
+.bcard.earned{opacity:1;border-color:var(--brand)}
+.bcard-icon{font-size:2.5rem}
+.bcard-name{font-weight:700;margin:8px 0 4px}
+.bcard-desc{font-size:var(--fs-sm);color:var(--ink-muted)}
+.bcard-status{font-size:var(--fs-sm);margin-top:8px;font-weight:600}
+@media(max-width:560px){
+  .topic-grid{grid-template-columns:1fr}
+  .choices{grid-template-columns:1fr}
+  .badge-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="container">
+    <button class="logo" id="homeBtn">📊 TK & Xác suất 10</button>
+    <div class="spacer"></div>
+    <span class="pill" id="xpDisplay">⭐ 0 XP</span>
+    <span class="pill accent" id="streakDisplay"></span>
+    <button class="iconbtn" id="soundBtn" aria-label="Âm thanh">🔈</button>
+    <button class="iconbtn" id="themeBtn" aria-label="Đổi theme">🌙</button>
+  </div>
+</header>
+
+<div id="installBar" class="install-bar hidden">
+  <span>📥 Cài đặt để học khi không có mạng</span>
+  <button class="btn sm" id="installBtn">Cài đặt</button>
+  <button class="close" onclick="dismissInstall()">✕</button>
+</div>
+
+<div class="app">
+  <div id="screen-home" class="screen">
+    <div style="text-align:center;padding:16px 0">
+      <div style="font-size:1.25rem;font-weight:700">📊 Thống kê & Xác suất 10</div>
+      <div id="dailyGoal" style="color:var(--ink-muted);margin-top:4px">🎯 Hôm nay: 0/10 câu</div>
+      <div id="homeTotal" style="font-size:var(--fs-sm);color:var(--ink-muted);margin-top:2px"></div>
+    </div>
+    <div class="topic-grid" id="topicGrid"></div>
+    <div class="actions">
+      <button class="btn primary" id="mixedBtn">🔥 Ôn tổng hợp — 15 câu</button>
+      <button class="btn ghost" id="achBtn">🏆 Thành tích</button>
+    </div>
+  </div>
+
+  <div id="screen-quiz" class="screen hidden">
+    <div class="statusbar" style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);margin-bottom:12px">
+      <span id="qTopic" style="font-weight:600"></span>
+      <span id="qProgress" style="color:var(--ink-muted)"></span>
+    </div>
+    <div id="qCard" class="card"></div>
+    <div class="actions">
+      <button class="btn ok" id="checkBtn">✅ Kiểm tra</button>
+      <button class="btn primary hidden" id="nextBtn">Câu tiếp →</button>
+      <button class="btn ghost" onclick="document.getElementById('homeBtn').click()" style="margin-left:auto">🏠</button>
+    </div>
+    <div id="explainBox" class="explain-box hidden">
+      <strong>💡 Lời giải:</strong>
+      <div id="explainText"></div>
+    </div>
+  </div>
+
+  <div id="screen-result" class="screen hidden">
+    <div class="result-header">
+      <div class="result-emoji" id="resultEmoji">🎉</div>
+      <div class="result-msg" id="resultMsg"></div>
+      <div class="result-score" id="resultScore"></div>
+      <div class="result-xp" id="resultXp"></div>
+      <div id="resultStreak" style="margin-top:4px;color:var(--ink-muted)"></div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="resultRetryBtn">🔁 Làm lại</button>
+      <button class="btn ghost" id="resultHomeBtn">📚 Chọn chủ đề khác</button>
+    </div>
+    <div style="font-weight:600;margin:12px 0 8px">📝 Chi tiết</div>
+    <div class="review-list" id="reviewList"></div>
+  </div>
+
+  <div id="screen-achievements" class="screen hidden">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+      <button class="btn ghost" id="achBackBtn">← Quay lại</button>
+      <span style="font-weight:700;font-size:var(--fs-lg)">🏆 Thành tích</span>
+    </div>
+    <div class="badge-grid" id="badgeGrid"></div>
+    <div id="activityHeat" style="margin-top:24px;padding:16px;border-radius:var(--r);background:var(--surface);border:1px solid var(--line)"></div>
+  </div>
+</div>
+
+<div id="debugLog" style="position:fixed;bottom:0;left:0;right:0;max-height:200px;overflow:auto;background:#450a0a;color:#fff;font-size:12px;padding:8px;z-index:9999;display:none"></div>
+<script src="/engine-core.js"></script>
+<script src="/thongke/engine-topics.js"></script>
+<script>
+(function(){
+  const log = document.getElementById('debugLog');
+  function showError(e){ log.style.display='block'; log.innerHTML += '<div>⚠️ '+e+'</div>'; }
+  window.onerror = function(msg, url, line, col, err){ showError(msg+' at '+(url||'')+':'+line+':'+col+' '+(err&&err.stack?err.stack:'')); };
+  window.addEventListener('unhandledrejection', function(e){ showError('Unhandled promise: '+e.reason); });
+  try { if(typeof initApp === 'undefined') showError('initApp not loaded'); if(typeof APP === 'undefined') showError('APP not loaded'); } catch(e){ showError('Init check: '+e); }
+})();
+const KS = {
+  name: 'Thống kê & Xác suất', prefix: 'thongke', themeColor: '#6366f1',
+  dailyGoal: 10, quizLen: 10, mixedLen: 15,
+  topics: [
+    { id:'so-gan-dung-sai-so', name:'Số gần đúng & Sai số', icon:'🎯' },
+    { id:'bang-phan-bo-tan-so', name:'Bảng phân bố tần số', icon:'📊' },
+    { id:'trung-binh-trung-vi-mo', name:'Số TB, Trung vị, Mốt', icon:'📈' },
+    { id:'phuong-sai-do-lech-chuan', name:'Phương sai & Độ lệch chuẩn', icon:'📉' },
+    { id:'xac-suat-co-dien', name:'Xác suất cổ điển', icon:'🎲' },
+    { id:'quy-tac-cong-nhan', name:'Quy tắc cộng & nhân', icon:'🔢' },
+    { id:'xac-suat-co-dieu-kien', name:'Xác suất có điều kiện', icon:'🎭' },
+    { id:'bai-toan-thuc-te', name:'Bài toán thực tế', icon:'🌍' },
+  ],
+  achievements: [
+    { id:'a1', name:'Khởi đầu', icon:'🌱', desc:'10 câu đúng đầu tiên' },
+    { id:'a2', name:'Bền bỉ', icon:'🔥', desc:'7 ngày đạt mục tiêu liên tiếp' },
+    { id:'a3', name:'Bách chiến', icon:'⚔️', desc:'100 câu đúng' },
+    { id:'a4', name:'Vua thống kê', icon:'📊', desc:'15 câu đúng Thống kê mô tả' },
+    { id:'a5', name:'Cao thủ xác suất', icon:'🎲', desc:'15 câu đúng Xác suất' },
+    { id:'a6', name:'Ứng dụng thực tế', icon:'🌍', desc:'10 câu đúng Bài toán thực tế' },
+    { id:'a7', name:'Chính xác', icon:'🎯', desc:'15 câu đúng Số gần đúng' },
+    { id:'a8', name:'Thách thức', icon:'💎', desc:'10 câu Nâng cao đúng' },
+    { id:'a9', name:'Tốc độ', icon:'⚡', desc:'5 câu đúng liên tiếp' },
+    { id:'a10', name:'Toàn diện', icon:'🌟', desc:'Đúng ≥1 câu ở cả 8 chủ đề' },
+  ]
+};
+initApp(KS);
+
+window._postCheck = checkBadges;
+function checkBadges(){
+  const c = S.totalCorrect||0;
+  if(c>=10 && !S.badges.a1){ S.badges.a1=true; setTimeout(()=>alert('🌱 Mở khóa: Khởi đầu!'),500); }
+  if(c>=100 && !S.badges.a3){ S.badges.a3=true; setTimeout(()=>alert('⚔️ Mở khóa: Bách chiến!'),500); }
+  const statTotal = (S.topics['bang-phan-bo-tan-so']?.correct||0)+(S.topics['trung-binh-trung-vi-mo']?.correct||0)+(S.topics['phuong-sai-do-lech-chuan']?.correct||0);
+  if(statTotal>=15 && !S.badges.a4){ S.badges.a4=true; setTimeout(()=>alert('📊 Mở khóa: Vua thống kê!'),500); }
+  const xsTotal = (S.topics['xac-suat-co-dien']?.correct||0)+(S.topics['quy-tac-cong-nhan']?.correct||0)+(S.topics['xac-suat-co-dieu-kien']?.correct||0);
+  if(xsTotal>=15 && !S.badges.a5){ S.badges.a5=true; setTimeout(()=>alert('🎲 Mở khóa: Cao thủ xác suất!'),500); }
+  if((S.topics['bai-toan-thuc-te']?.correct||0)>=10 && !S.badges.a6){ S.badges.a6=true; setTimeout(()=>alert('🌍 Mở khóa: Ứng dụng thực tế!'),500); }
+  if((S.topics['so-gan-dung-sai-so']?.correct||0)>=15 && !S.badges.a7){ S.badges.a7=true; setTimeout(()=>alert('🎯 Mở khóa: Chính xác!'),500); }
+  if(S.bestStreak>=5 && !S.badges.a9){ S.badges.a9=true; setTimeout(()=>alert('⚡ Mở khóa: Tốc độ!'),500); }
+  const allTopics = APP.topics.every(t => (S.topics[t.id]?.correct||0)>=1);
+  if(allTopics && !S.badges.a10){ S.badges.a10=true; setTimeout(()=>alert('🌟 Mở khóa: Toàn diện!'),500); }
+  let streakDays = 1;
+  for(let i=1;i<30;i++){
+    const d = new Date(); d.setDate(d.getDate()-i);
+    const key = d.toISOString().slice(0,10);
+    if(S.activityLog[key] && S.activityLog[key] >= APP.dailyGoal) streakDays++;
+    else break;
+  }
+  S.streakDays = streakDays;
+  if(streakDays>=7 && !S.badges.a2){ S.badges.a2=true; setTimeout(()=>alert('🔥 Mở khóa: Bền bỉ!'),500); }
+  saveState();
+}
+
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault(); deferredPrompt = e;
+  if(!localStorage.getItem('toan10_installDismiss'))
+    document.getElementById('installBar').classList.remove('hidden');
+});
+document.getElementById('installBtn').addEventListener('click', async () => {
+  if(deferredPrompt){ deferredPrompt.prompt(); const r = await deferredPrompt.userChoice; deferredPrompt = null; }
+});
+window.addEventListener('appinstalled', () => { document.getElementById('installBar').classList.add('hidden'); });
+function dismissInstall(){ document.getElementById('installBar').classList.add('hidden'); localStorage.setItem('toan10_installDismiss','1'); }
+if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.navigator.standalone)
+  document.querySelector('#installBar span').textContent = 'Chia sẻ → Thêm vào Màn hình chính để dùng offline';
+</script>
+</body>
+</html>
