@@ -6,11 +6,11 @@
 <meta name="description" content="Ôn tập Toán lớp 10 - Đại số, Hình học, Thống kê & Xác suất. Học offline, miễn phí, không quảng cáo.">
 <meta name="theme-color" content="#6366f1">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="manifest" href="/manifest.webmanifest">
-<link rel="icon" href="/icons/icon-192.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/icons/icon-192.svg">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/icon-192.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icons/icon-192.svg">
 <title>Toán 10 - Ôn tập lớp 10</title>
-<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="./style.css">
 <style>
 .hero{text-align:center;padding:48px 16px 32px}
 .hero h1{font-size:clamp(2rem,5vw,3rem);font-weight:900;background:linear-gradient(135deg,#6366f1,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -59,7 +59,7 @@ footer a{color:var(--brand);font-weight:600}
 </div>
 
 <div class="grid-cards">
-  <a href="/daiso/" class="card-sub">
+  <a href="./daiso/" class="card-sub">
     <div class="icon">📊</div>
     <h2>Đại số</h2>
     <p>Mệnh đề, hàm số, phương trình, bất phương trình, lượng giác</p>
@@ -68,7 +68,7 @@ footer a{color:var(--brand);font-weight:600}
     </div>
     <div class="btn primary">Vào học →</div>
   </a>
-  <a href="/hinhhoc/" class="card-sub">
+  <a href="./hinhhoc/" class="card-sub">
     <div class="icon">📐</div>
     <h2>Hình học</h2>
     <p>Vector, tọa độ, tích vô hướng, đường thẳng, đường tròn, elip, hypebol, parabol</p>
@@ -77,7 +77,7 @@ footer a{color:var(--brand);font-weight:600}
     </div>
     <div class="btn primary">Vào học →</div>
   </a>
-  <a href="/thongke/" class="card-sub">
+  <a href="./thongke/" class="card-sub">
     <div class="icon">📊</div>
     <h2>Thống kê & Xác suất</h2>
     <p>Số gần đúng, bảng phân bố, số TB/trung vị/mốt, phương sai, xác suất, bài toán thực tế</p>
@@ -159,7 +159,7 @@ if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.navigator.standalone)
   document.getElementById('installBar').querySelector('span').textContent = 'Chia sẻ → Thêm vào Màn hình chính để dùng offline';
 
 // Service worker
-if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
+if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
 </script>
 </body>
 </html>
